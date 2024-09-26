@@ -1,5 +1,6 @@
 // Initial Data
 let currentColor = 'black';
+let canDraw = false;
 
 let screen = document.querySelector('#tela');
 let ctx = screen.getContext('2d');
@@ -22,11 +23,16 @@ function colorClickEvent(e) {
     e.target.classList.add('active')
 }
 function mouseDownEvent() {
-
+    canDraw = true;
 }
-function mouseMoveEvent() {
+function mouseMoveEvent(e) {
+    if(canDraw) {
+        let pointX = e.pageX - screen.offsetLeft;
+        let pointY = e.pageY - screen.offsetTop;
 
+        console.log(pointX, pointY)
+    }
 }
 function mouseUpEvent() {
-    
+    canDraw = false;
 }

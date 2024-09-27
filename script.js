@@ -1,6 +1,8 @@
 // Initial Data
 let currentColor = 'black';
 let canDraw = false;
+let mouseX = 0;
+let mouseY = 0;
 
 let screen = document.querySelector('#tela');
 let ctx = screen.getContext('2d');
@@ -22,17 +24,32 @@ function colorClickEvent(e) {
     document.querySelector('.color.active').classList.remove('active');
     e.target.classList.add('active')
 }
-function mouseDownEvent() {
+function mouseDownEvent(e) {
     canDraw = true;
+    mouseX = e.pageX - screen.offsetLeft;
+    mouseY = e.pageY - screen.offsetTop;
 }
 function mouseMoveEvent(e) {
     if(canDraw) {
-        let pointX = e.pageX - screen.offsetLeft;
-        let pointY = e.pageY - screen.offsetTop;
-
-        console.log(pointX, pointY)
+        draw(e.pageX, e.pageY);
     }
 }
 function mouseUpEvent() {
     canDraw = false;
+}
+function draw(x, y) {
+    let pointX = x - screen.offsetLeft;
+    let pointY = y - screen.offsetTop;
+
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.lineJoin = 'round';
+    ctx.moveTo(mouseX, mouseY);
+    ctx.lineTo(pointX, pointY);
+    ctx.closePath();
+    ctx.strokeStyle = currentColor;
+    ctx.stroke();
+
+    mouseX = pointX;
+    mouseY = pointY;
 }
